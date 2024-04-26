@@ -4,11 +4,11 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2019
 # Defina o diretório de trabalho
 WORKDIR /app
 
-# Copie o script de instalação do .NET Framework
-COPY install_dotnet.sh .
+# Instale o Chocolatey
+RUN powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
 
-# Execute o script de instalação do .NET Framework
-RUN powershell -Command ./install_dotnet.sh
+# Instale o SDK do .NET Framework 4.6.1 usando o Chocolatey
+RUN choco install dotnet4.6.1 -y
 
 # Adicione o caminho do executável do .NET Framework ao PATH do sistema
 RUN setx /M PATH $($Env:PATH + ';C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools')
