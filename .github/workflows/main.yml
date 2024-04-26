@@ -1,9 +1,14 @@
-# Use a imagem oficial do Windows Server Core como base
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+name: Build Docker Image
 
-# Defina o diretório de trabalho
-WORKDIR /app
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
+jobs:
 jobs:
   build:
     runs-on: windows-2019
