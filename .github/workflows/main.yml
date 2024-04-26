@@ -9,7 +9,6 @@ on:
       - main
 
 jobs:
-jobs:
   build:
     runs-on: windows-2019
     steps:
