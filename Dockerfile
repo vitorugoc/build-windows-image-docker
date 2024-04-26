@@ -8,10 +8,10 @@ WORKDIR /app
 COPY installer/dotnet-sdk-installer.exe .
 
 # Instale o SDK do .NET Framework 4.6.1
-RUN dotnet-sdk-installer.exe /q
+RUN dotnet-sdk-installer.exe /q && del dotnet-sdk-installer.exe
 
 # Adicione o caminho do executável do .NET Framework ao PATH do sistema
-RUN setx /M PATH $($Env:PATH + ';C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools')
+RUN setx /M PATH "%PATH%;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools"
 
 # Verifique se o SDK foi instalado corretamente
 RUN dotnet --version
