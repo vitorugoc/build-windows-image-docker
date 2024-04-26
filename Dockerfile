@@ -1,14 +1,23 @@
-Installing 'C:\Users\CONTAI~1\AppData\Local\Temp\ndp48-x86-x64-allos-enu.exe' - this may take awhile with no output.
-.NET Framework 4.8 was installed, but a reboot is required. 
- Please reboot the system and try to install/upgrade Chocolatey again.
-At C:\Users\ContainerAdministrator\AppData\Local\Temp\chocolatey\chocoInstall\t
-ools\chocolateysetup.psm1:815 char:11
-+           throw ".NET Framework 4.8 was installed, but a reboot is re ...
-+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : OperationStopped: (.NET Framework ...ocolatey ag 
-   ain.:String) [], RuntimeException
-    + FullyQualifiedErrorId : .NET Framework 4.8 was installed, but a reboot i 
-   s required. 
- Please reboot the system and try to install/upgrade Chocolatey again.
- 
-The command 'cmd /S /C powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"' returned a non-zero code: 1
+# Use a imagem oficial do Windows Server Core como base
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
+
+# Defina o diretório de trabalho
+WORKDIR /app
+
+# Copie o instalador do SDK do .NET Framework 4.6.1 do repositório
+COPY installer/dotnet-sdk-installer.exe .
+
+# Instale o SDK do .NET Framework 4.6.1
+RUN dotnet-sdk-installer.exe /q
+
+# Adicione o caminho do executável do .NET Framework ao PATH do sistema
+RUN setx /M PATH $($Env:PATH + ';C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools')
+
+# Verifique se o SDK foi instalado corretamente
+RUN dotnet --version
+
+# Limpeza - exclua o instalador após a instalação estar completa
+RUN del dotnet-sdk-installer.exe
+
+# Defina um ponto de entrada padrão (opcional)
+CMD ["cmd"]
