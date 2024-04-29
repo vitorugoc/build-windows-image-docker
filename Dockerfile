@@ -1,5 +1,5 @@
 # Use a imagem oficial do Windows Server Core como base
-FROM mcr.microsoft.com/dotnet/framework/sdk:4.8
+FROM mcr.microsoft.com/dotnet/framework/sdk:4.7.1
 
 # Defina o diretório de trabalho
 WORKDIR /app
