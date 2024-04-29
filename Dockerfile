@@ -5,7 +5,7 @@ FROM mcr.microsoft.com/dotnet/framework/sdk:4.8
 WORKDIR /app
 
 # Verifique se o SDK foi instalado corretamente
-RUN dotnet --version
+RUN dotnet --list-sdks
 
 # Defina um ponto de entrada padrão (opcional)
 CMD ["cmd"]
